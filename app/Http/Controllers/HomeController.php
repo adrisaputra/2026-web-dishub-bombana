@@ -16,20 +16,31 @@ class HomeController extends Controller
     ## Show Data
     public function index()
     {
-        // echo $this->village->id;
         $title = "Dashboard";
-        if(Auth::user()->group_id == 1){
-            $subdistrict = Subdistrict::count();
-            $village = Village::count();
-            $user = User::count();
-            return view('admin.home',compact('title','subdistrict','village','user'));
-        } else {
-            $news = News::where('village_id', $this->village->id)->count();
-            $resident_member = ResidentMember::whereHas('resident', function ($query){
-                                    $query->where('village_id', $this->village->id)
-                                        ->where('year', date('Y'));
-                                })->count();
-            return view('admin.home',compact('title','news','resident_member'));
-        }
+        $news = $this->count_news();
+        $user = User::count();
+        // $message = Message::orderBy('id','DESC')->limit('3')->get();
+		return view('admin.home',compact('title','news','user'));
+    }
+    
+    function count_news(){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://ppid.bombanakab.go.id/api/count_news/21',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        return $response;
+        
     }
 }

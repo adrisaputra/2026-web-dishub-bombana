@@ -36,4 +36,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function group(){
+        return $this->belongsTo('App\Models\Group');
+    }
 }

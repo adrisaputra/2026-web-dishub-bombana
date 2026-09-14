@@ -17,7 +17,7 @@ $setting = \App\Helpers\Helpers::setting();
 	<meta property="og:title" content={{ __($setting->application_name) }} />
 	<meta property="og:url" content="{{ url('') }}" />
 	<meta property="og:site_name" content={{ __($setting->application_name) }} />
-	<link rel="icon" type="image/x-icon" href="{{ asset('storage/upload/setting/11784199053.webp') }}" />
+	<link rel="icon" type="image/x-icon" href="{{ asset('storage/upload/setting/'.$setting->small_icon) }}" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
@@ -229,7 +229,7 @@ $setting = \App\Helpers\Helpers::setting();
 								</div>
 							</div>
 
-							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('history'))) here show @endif menu-accordion">
+							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), ['about','vision_mission','main_tasks','structure'])) here show @endif menu-accordion">
 								<span class="menu-link">
 									<span class="menu-icon" style="margin-right: 15px">
 										<img src="{{ asset('storage/menu/icons8-company-100.png') }}" width="30" height="30">
@@ -238,104 +238,120 @@ $setting = \App\Helpers\Helpers::setting();
 									<span class="menu-arrow"></span>
 								</span>
 								<div class="menu-sub menu-sub-accordion menu-active-bg">
-									{{--<div class="menu-item">
-											<a class="menu-link @if(Request::segment(1)=='profile') active @endif" href="{{ url('profile') }}">
-									<span class="menu-bullet">
-										<span class="bullet bullet-dot"></span>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='about') active @endif" href="{{ url('about') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Tentang Kami</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='vision_mission') active @endif" href="{{ url('vision_mission') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Visi dan Misi</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='main_tasks') active @endif" href="{{ url('main_tasks') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Tugas Pokok dan Fungsi</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='structure') active @endif" href="{{ url('structure') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Struktur Organisasi</span>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('news','publication'))) here show @endif menu-accordion">
+								<span class="menu-link">
+									<span class="menu-icon" style="margin-right: 15px">
+										<img src="{{ asset('storage/menu/icons8-magazine-100.png') }}" width="30" height="30">
 									</span>
-									<span class="menu-title">Profil</span>
-									</a>
-								</div>--}}
-								<div class="menu-item">
-									<a class="menu-link @if(Request::segment(1)=='history') active @endif" href="{{ url('history') }}">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Sejarah</span>
-									</a>
+									<span class="menu-title">Informasi Publik</span>
+									<span class="menu-arrow"></span>
+								</span>
+								<div class="menu-sub menu-sub-accordion menu-active-bg">
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='news') active @endif" href="{{ url('news') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Berita</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='publication') active @endif" href="{{ url('publication') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Publikasi</span>
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('news','publication'))) here show @endif menu-accordion">
-							<span class="menu-link">
-								<span class="menu-icon" style="margin-right: 15px">
-									<img src="{{ asset('storage/menu/icons8-magazine-100.png') }}" width="30" height="30">
+							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('news','publication_perbup','publication_perpres','publication_sk','album','video'))) here show @endif menu-accordion">
+								<span class="menu-link">
+									<span class="menu-icon" style="margin-right: 15px">
+										<img src="{{ asset('storage/menu/icons8-gallery-100.png') }}" width="30" height="30">
+									</span>
+									<span class="menu-title">Galeri</span>
+									<span class="menu-arrow"></span>
 								</span>
-								<span class="menu-title">Informasi Publik</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<div class="menu-sub menu-sub-accordion menu-active-bg">
-								<div class="menu-item">
-									<a class="menu-link @if(Request::segment(1)=='news') active @endif" href="{{ url('news') }}">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Berita</span>
-									</a>
-								</div>
-								<div class="menu-item">
-									<a class="menu-link @if(Request::segment(1)=='publication') active @endif" href="{{ url('publication') }}">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Publikasi</span>
-									</a>
+								<div class="menu-sub menu-sub-accordion menu-active-bg">
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='album') active @endif " href="{{ url('album') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Foto</span>
+										</a>
+									</div>
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='video') active @endif " href="{{ url('video') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Video</span>
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('news','publication_perbup','publication_perpres','publication_sk','album','video'))) here show @endif menu-accordion">
-							<span class="menu-link">
-								<span class="menu-icon" style="margin-right: 15px">
-									<img src="{{ asset('storage/menu/icons8-gallery-100.png') }}" width="30" height="30">
-								</span>
-								<span class="menu-title">Galeri</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<div class="menu-sub menu-sub-accordion menu-active-bg">
-								<div class="menu-item">
-									<a class="menu-link @if(Request::segment(1)=='album') active @endif " href="{{ url('album') }}">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Foto</span>
-									</a>
-								</div>
-								<div class="menu-item">
-									<a class="menu-link @if(Request::segment(1)=='video') active @endif " href="{{ url('video') }}">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Video</span>
-									</a>
+							@if(Auth::user()->group->name == 'Administrator')
+							<div class="menu-item">
+								<div class="menu-content pb-2">
+									<span class="menu-section text-muted text-uppercase fs-8 ls-1">Data Master</span>
 								</div>
 							</div>
-						</div>
-
-						@if(Auth::user()->group->name == 'Administrator')
-						<div class="menu-item">
-							<div class="menu-content pb-2">
-								<span class="menu-section text-muted text-uppercase fs-8 ls-1">Data Master</span>
+							<div class="menu-item">
+								<a class="menu-link @if(Request::segment(1)==" log") active @endif" href="{{ url('/log') }}">
+									<span class="menu-icon" style="margin-right: 15px">
+										<img src="{{ asset('storage/menu/icons8-timer-100.png') }}" width="30" height="30">
+									</span>
+									<span class="menu-title">Log Aktifitas</span>
+								</a>
 							</div>
-						</div>
-						<div class="menu-item">
-							<a class="menu-link @if(Request::segment(1)==" log") active @endif" href="{{ url('/log') }}">
-								<span class="menu-icon" style="margin-right: 15px">
-									<img src="{{ asset('storage/menu/icons8-timer-100.png') }}" width="30" height="30">
-								</span>
-								<span class="menu-title">Log Aktifitas</span>
-							</a>
-						</div>
-						<div class="menu-item">
-							<a class="menu-link @if(Request::segment(1)==" user") active @endif" href="{{ url('/user') }}">
-								<span class="menu-icon" style="margin-right: 15px">
-									<img src="{{ asset('storage/menu/icons8-customer-100.png') }}" width="30" height="30">
-								</span>
-								<span class="menu-title">Pengguna</span>
-							</a>
-						</div>
-						@endif
+							<div class="menu-item">
+								<a class="menu-link @if(Request::segment(1)==" user") active @endif" href="{{ url('/user') }}">
+									<span class="menu-icon" style="margin-right: 15px">
+										<img src="{{ asset('storage/menu/icons8-customer-100.png') }}" width="30" height="30">
+									</span>
+									<span class="menu-title">Pengguna</span>
+								</a>
+							</div>
+							@endif
 					</div>
 					<!--end::Menu-->
 				</div>

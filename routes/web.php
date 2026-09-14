@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PopupController;
@@ -57,15 +58,21 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/popup/delete/{popup}', [PopupController::class, 'delete']);
 
     ## Profiles
-    Route::get('/history', [ProfileController::class, 'index']);
+    Route::get('/about', [ProfileController::class, 'index']);
     Route::get('/vision_mission', [ProfileController::class, 'index']);
+    Route::get('/main_tasks', [ProfileController::class, 'index']);
     Route::get('/structure', [ProfileController::class, 'index']);
-    Route::get('/area', [ProfileController::class, 'index']);
-    Route::get('/demographics', [ProfileController::class, 'index']);
-    Route::get('/bpd', [ProfileController::class, 'index']);
     Route::post('/profile/validate', [ProfileController::class, 'validation']);
     Route::put('/profile/edit/{profile}', [ProfileController::class, 'update']);
 
+    ## Information
+    Route::get('/information/{category}', [InformationController::class, 'index'])->name('information.index');
+    Route::get('/information/list/{category}', [InformationController::class, 'get_information_index'])->name('information.list');
+    Route::post('/information/store', [InformationController::class, 'store']);
+    Route::post('/information/validate/{action}', [InformationController::class, 'validate']);
+    Route::get('/information/edit/{information}', [InformationController::class, 'edit']);
+    Route::put('/information/edit/{information}', [InformationController::class, 'update']);
+    Route::get('/information/delete/{information}', [InformationController::class, 'delete']);
 });
 
 

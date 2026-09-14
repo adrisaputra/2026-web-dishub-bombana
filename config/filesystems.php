@@ -60,7 +60,16 @@ return [
             'report' => false,
         ],
 
+        'ppid_storage' => [
+            'driver' => 'local',
+            'root' => base_path('../web-ppid-bombana/storage/app/public'),
+            'url' => env('SIMPEG_STORAGE_URL'),
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
+
 
     /*
     |--------------------------------------------------------------------------

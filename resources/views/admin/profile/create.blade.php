@@ -12,7 +12,7 @@
                 <input type="text" name="title" id="title" class="form-control" placeholder="Judul" value="{{ $profile->title }}" disabled />
             </div>
         </div>
-        @if(in_array($profile->menu,['history','vision_mission','bpd']))
+        @if(in_array($profile->menu,['about','vision_mission','main_tasks']))
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">Deskripsi</label>
             <div class="col-lg-8 fv-row">

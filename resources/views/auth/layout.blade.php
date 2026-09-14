@@ -16,10 +16,11 @@ $setting = \App\Helpers\Helpers::setting();
 		<meta property="og:title" content={{ $setting->application_name }} />
 		<meta property="og:url" content="{{ url('') }}" />
 		<meta property="og:site_name" content={{ $setting->application_name }} />
+	<link rel="icon" type="image/x-icon" href="{{ asset('storage/upload/setting/'.$setting->small_icon) }}" />
 		<!--begin::Fonts-->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500..700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 		<link href="{{ asset('backend/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('backend/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="{{ asset('backend/assets/css/animate.css') }}" type="text/css" />
@@ -28,7 +29,7 @@ $setting = \App\Helpers\Helpers::setting();
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="bg-body" style="background-image: url('{{ asset('storage/background_login.jpg') }}'); background-size: cover;">
+	<body id="kt_body" class="bg-body" style="background-image: url('{{ asset('storage/upload/setting/'.$setting->background_login) }}'); background-size: cover;">
         @yield('content')
         <!--end::Main-->
 		<script>var hostUrl = "backend/assets/";</script>

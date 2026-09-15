@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PopupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -74,6 +76,25 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/information/edit/{information}', [InformationController::class, 'edit']);
     Route::put('/information/edit/{information}', [InformationController::class, 'update']);
     Route::get('/information/delete/{information}', [InformationController::class, 'delete']);
+
+    ## Album
+    Route::get('/album', [AlbumController::class, 'index'])->name('album.index');
+    Route::get('/album/list', [AlbumController::class, 'get_album_index'])->name('album.list');
+    Route::post('/album/store', [AlbumController::class, 'store']);
+    Route::post('/album/validate/{action}', [AlbumController::class, 'validate']);
+    Route::get('/album/edit/{album}', [AlbumController::class, 'edit']);
+    Route::put('/album/edit/{album}', [AlbumController::class, 'update']);
+    Route::get('/album/delete/{album}', [AlbumController::class, 'delete']);
+
+    ## Photo
+    Route::get('/photo/{album}', [PhotoController::class, 'index'])->name('photos.index');
+    Route::get('/photo/list/{album}', [PhotoController::class, 'get_photo_index'])->name('photos.list');
+    Route::post('/photo/store', [PhotoController::class, 'store']);
+    Route::post('/photo/validate/{action}', [PhotoController::class, 'validate']);
+    Route::get('/photo/edit/{photo}', [PhotoController::class, 'edit']);
+    Route::put('/photo/edit/{photo}', [PhotoController::class, 'update']);
+    Route::get('/photo/delete/{photo}', [PhotoController::class, 'delete']);
+
 });
 
 

@@ -252,23 +252,25 @@
             padding: '2em'
         }).then(function (result) {
             if (result.isConfirmed) {
-                new Swal(
-                    'Deleted!',
-                    'Data Berhasil Dihapus.',
-                    'success'
-                ).then(function () {
-                    var url = "{{ url('/information/delete') }}";
-                    $.ajax({
-                        url: url + "/" + id,
-                        success: function (response) {
+                $('#loading').show();
+                var url = "{{ url('/information/delete') }}";
+                $.ajax({
+                    url: url + "/" + id,
+                    success: function (response) {
+                        $('#loading').hide();
+                        new Swal(
+                            'Deleted!',
+                            'Data Berhasil Dihapus.',
+                            'success'
+                        ).then(function () {
                             showSuccessToast(response.message);
                             $('#myForm')[0].reset();
                             table.ajax.reload(null, false);
-                        },
-                        error: function (xhr) {
-                            console.error("Error pengiriman formulir:", xhr);
-                        }
-                    });
+                        });
+                    },
+                    error: function (xhr) {
+                        console.error("Error pengiriman formulir:", xhr);
+                    }
                 });
             }
         });

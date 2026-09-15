@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +95,15 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/photo/edit/{photo}', [PhotoController::class, 'edit']);
     Route::put('/photo/edit/{photo}', [PhotoController::class, 'update']);
     Route::get('/photo/delete/{photo}', [PhotoController::class, 'delete']);
+
+    ## Video
+    Route::get('/video', [VideoController::class, 'index'])->name('video.index');
+    Route::get('/video/list', [VideoController::class, 'get_video_index'])->name('video.list');
+    Route::post('/video/store', [VideoController::class, 'store']);
+    Route::post('/video/validate/{action}', [VideoController::class, 'validate']);
+    Route::get('/video/edit/{video}', [VideoController::class, 'edit']);
+    Route::put('/video/edit/{video}', [VideoController::class, 'update']);
+    Route::get('/video/delete/{video}', [VideoController::class, 'delete']);
 
 });
 

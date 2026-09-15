@@ -91,7 +91,8 @@ class AlbumController extends Controller
     {
         if ($request->ajax()) {
             $album = New Album();
-            $album->fill($request->all());
+            $album->title = $request->title;
+            $album->text = $request->text;
             
             if ($request->hasFile('cover')) {
                 $file = $request->file('cover');
@@ -128,10 +129,9 @@ class AlbumController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request,$id)
+    public function edit(Request $request, Album $album)
     {
         if ($request->ajax()) {
-            $album = Album::where('id',$id)->first();
             return response()->json(['success' => true,'data' => $album]);
         }
     }

@@ -129,10 +129,9 @@ class NewsController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request, $id)
+    public function edit(Request $request, News $news)
     {
         if ($request->ajax()) {
-            $news = News::where('id', $id)->first();
             return response()->json(['success' => true, 'data' => $news]);
         }
     }

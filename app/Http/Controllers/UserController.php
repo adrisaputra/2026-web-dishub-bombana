@@ -144,10 +144,9 @@ class UserController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request,$id)
+    public function edit(Request $request,User $user)
     {
         if ($request->ajax()) {
-            $user = User::where('id',$id)->first();
             return response()->json(['success' => true,'data' => $user]);
         }
     }

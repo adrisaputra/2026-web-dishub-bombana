@@ -82,7 +82,6 @@ class PhotoController extends Controller
     {
         if ($request->ajax()) {
             $photo = New Photo();
-            $photo->fill($request->all());
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -118,10 +117,9 @@ class PhotoController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request,$id)
+    public function edit(Request $request,Photo $photo)
     {
         if ($request->ajax()) {
-            $photo = Photo::where('id',$id)->first();
             return response()->json(['success' => true,'data' => $photo]);
         }
     }

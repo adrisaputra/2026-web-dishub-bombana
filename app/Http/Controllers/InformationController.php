@@ -139,10 +139,9 @@ class InformationController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request, $id)
+    public function edit(Request $request, Information $information)
     {
         if ($request->ajax()) {
-            $information = Information::where('id', $id)->first();
             return response()->json(['success' => true, 'data' => $information]);
         }
     }

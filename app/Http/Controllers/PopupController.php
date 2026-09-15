@@ -83,7 +83,7 @@ class PopupController extends Controller
     {
         if ($request->ajax()) {
             $popup = new Popup();
-            $popup->fill($request->all());
+            $popup->title = $request->title;
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -109,10 +109,9 @@ class PopupController extends Controller
     }
 
     ## Get Data
-    public function edit(Request $request, $id)
+    public function edit(Request $request, Popup $popup)
     {
         if ($request->ajax()) {
-            $popup = Popup::where('id', $id)->first();
             return response()->json(['success' => true, 'data' => $popup]);
         }
     }

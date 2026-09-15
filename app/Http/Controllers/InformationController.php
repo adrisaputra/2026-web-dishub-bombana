@@ -15,20 +15,28 @@ use Intervention\Image\ImageManager;
 class InformationController extends Controller
 {
     ## Show Data
-    public function index()
+    public function index($category = null)
     {
-        $title = "Informasi";
-        return view('admin.information.index', compact('title'));
+        if($category == 1){
+            $title = "Informasi Program dan Kegiatan";   
+        } else if($category == 2){
+            $title = "Informasi Pelayanan Publik";   
+        } else if($category == 3){
+            $title = "Informasi Transportasi dan Fasilitas Perhubungan";   
+        } else if($category == 4){
+            $title = "Informasi Perizinan dan Persyaratan Pelayanan";   
+        } 
+        return view('admin.information.index', compact('title','category'));
     }
 
     ## Get Data
-    public function get_information_index(Request $request)
+    public function get_information_index(Request $request, $category = null)
     {
 
         if ($request->ajax()) {
             $counter = 1;
 
-            $information = Information::limit(10);
+            $information = Information::where('category', $category)->limit(10);
 
             return DataTables::of($information)
                 ->addIndexColumn()
@@ -89,8 +97,9 @@ class InformationController extends Controller
     {
         if ($request->ajax()) {
             $information = new Information();
-            $information->fill($request->all());
             $information->category = $request->category;
+            $information->title = $request->title;
+            $information->text = $request->text;
             $information->slug = Str::slug($request->title);
             $information->user_id = Auth::user()->id;
 
@@ -142,6 +151,7 @@ class InformationController extends Controller
     public function update(Request $request, Information $information)
     {
         if ($request->ajax()) {
+            $information->category = $request->category;
             $information->title = $request->title;
             $information->text = $request->text;
             $information->slug = Str::slug($request->title);

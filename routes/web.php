@@ -68,6 +68,7 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     ## Information
     Route::get('/information/{category}', [InformationController::class, 'index'])->name('information.index');
     Route::get('/information/list/{category}', [InformationController::class, 'get_information_index'])->name('information.list');
+    Route::post('/information/upload_image', [InformationController::class, 'upload_image'])->name('upload_information');
     Route::post('/information/store', [InformationController::class, 'store']);
     Route::post('/information/validate/{action}', [InformationController::class, 'validate']);
     Route::get('/information/edit/{information}', [InformationController::class, 'edit']);

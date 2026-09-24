@@ -273,23 +273,24 @@ $setting = \App\Helpers\Helpers::setting();
 								</div>
 							</div>
 
+							<div class="menu-item">
+								<a class="menu-link @if(Request::segment(1)=="news") active @endif" href="{{ url('/news') }}">
+									<span class="menu-icon" style="margin-right: 15px">
+										<img src="{{ asset('storage/menu/icons8-magazine-100.png') }}" width="30" height="30">
+									</span>
+									<span class="menu-title">Berita</span>
+								</a>
+							</div>
+
 							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), array('news','information'))) here show @endif menu-accordion">
 								<span class="menu-link">
 									<span class="menu-icon" style="margin-right: 15px">
-										<img src="{{ asset('storage/menu/icons8-magazine-100.png') }}" width="30" height="30">
+										<img src="{{ asset('storage/menu/icons8-loudspeaker-100.png') }}" width="30" height="30">
 									</span>
 									<span class="menu-title">Informasi Publik</span>
 									<span class="menu-arrow"></span>
 								</span>
 								<div class="menu-sub menu-sub-accordion menu-active-bg">
-									{{--<div class="menu-item">
-										<a class="menu-link @if(Request::segment(1)=='news') active @endif" href="{{ url('news') }}">
-											<span class="menu-bullet">
-												<span class="bullet bullet-dot"></span>
-											</span>
-											<span class="menu-title">Berita</span>
-										</a>
-									</div>--}}
 									<div class="menu-item">
 										<a class="menu-link @if(Request::segment(1)=='information' && Request::segment(2)==1) active @endif" href="{{ url('information/1') }}">
 											<span class="menu-bullet">

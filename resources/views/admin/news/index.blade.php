@@ -197,7 +197,7 @@
                 
                 CKEDITOR.instances['text'].setData(response.data.text);
                 // Ubah nilai cover menjadi tag <a> dengan href yang diinginkan
-                var coverLink = '<br><a href="{{ asset("storage/upload/news/") }}/' + response.data.cover + '" class="btn mb-2 mr-1 btn-sm btn-info snackbar-bg-info" target="_blank">Lihat Cover Sebelumnya</a>';
+                var coverLink = '<br><a href="{{ Storage::disk("ppid_storage")->url("upload/news/") }}'+response.data.cover+'" class="btn mb-2 mr-1 btn-sm btn-info snackbar-bg-info" target="_blank">Lihat Cover Sebelumnya</a>';
                 document.getElementById("show_cover").innerHTML = coverLink;
             },
             error: function (xhr) {

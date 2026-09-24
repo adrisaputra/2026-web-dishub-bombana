@@ -10,14 +10,15 @@ class News extends Model
     use HasFactory;
     protected $connection = 'ppid_mysql';
     protected $fillable =[
-        'village_id',
         'title',
+        'text',
         'cover',
         'slug',
-        'text',
         'file',
+        'announcement',
         'count_view',
         'user_id',
+        'office_id',
     ];
 
     public function user(){

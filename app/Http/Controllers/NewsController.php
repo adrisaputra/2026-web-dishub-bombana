@@ -28,7 +28,7 @@ class NewsController extends Controller
         if ($request->ajax()) {
             $counter = 1;
 
-            $news = News::limit(10);
+            $news = News::where('office_id', 14)->limit(10);
 
             return DataTables::of($news)
                 ->addIndexColumn()
@@ -89,35 +89,34 @@ class NewsController extends Controller
     {
         if ($request->ajax()) {
             $news = new News();
-            $news->fill($request->all());
+            $news->title = $request->title;
+            $news->text = $request->text;
             $news->slug = Str::slug($request->title);
-            $news->user_id = Auth::user()->id;
+            $news->user_id = 14;
+            $news->office_id = 14;
 
             if ($request->hasFile('cover')) {
+
                 $file = $request->file('cover');
-                $fileName = time() . '.webp'; // paksa jadi webp
+                $fileName = time() . '.webp';
 
-                // Tentukan ukuran
-                $width = 1600;
-                $height = 1068;
-
-                // Baca file langsung dari upload (tanpa pindah ke temp folder)
                 $manager = new ImageManager(new Driver());
-                // $cover = $manager->read($file->getRealPath())
-                //     ->resize($width, $height, function ($constraint) {
-                //         $constraint->aspectRatio();
-                //         $constraint->upsize();
-                //     });
 
-                $cover = $manager->read($file->getRealPath());
+                $cover = $manager->read($file->getRealPath())
+                    ->resize(1600, 1068, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
 
-                // Simpan tanpa kompresi
                 $encoded = $cover->toWebp(75);
 
-                // Simpan ke storage
-                Storage::put('upload/news/' . $fileName, (string) $encoded);
+                // Simpan ke:
+                // 2025-simpeg-al-qalam/storage/app/public/upload/news/
+                Storage::disk('ppid_storage')->put(
+                    'upload/news/' . $fileName,
+                    (string) $encoded
+                );
 
-                // Simpan nama file ke database
                 $news->cover = $fileName;
             }
 
@@ -140,44 +139,54 @@ class NewsController extends Controller
     public function update(Request $request, News $news)
     {
         if ($request->ajax()) {
+            
             $news->title = $request->title;
             $news->text = $request->text;
             $news->slug = Str::slug($request->title);
 
             if ($request->hasFile('cover')) {
 
-                // simpan nama file lama
+                // Simpan nama file lama
                 $oldImage = $news->cover;
 
                 $file = $request->file('cover');
-                $fileName = time() . '.webp'; // paksa jadi webp
+                $fileName = time() . '.webp';
 
                 // Tentukan ukuran
                 $width = 1600;
                 $height = 1068;
 
-                // Baca file langsung dari upload (tanpa pindah ke temp folder)
+                // Baca file upload
                 $manager = new ImageManager(new Driver());
+
                 $cover = $manager->read($file->getRealPath())
                     ->resize($width, $height, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
 
-                // Simpan tanpa kompresi
+                // Encode WebP quality 75
                 $encoded = $cover->toWebp(75);
 
-                // Simpan ke storage
-                Storage::put('upload/news/' . $fileName, (string) $encoded);
+                // Simpan file baru
+                $path = 'upload/news/' . $fileName;
 
-                // pastikan file benar-benar ada
-                if (Storage::exists('upload/news/' . $fileName)) {
+                Storage::disk('ppid_storage')->put(
+                    $path,
+                    (string) $encoded
+                );
 
+                // Pastikan file benar-benar tersimpan
+                if (Storage::disk('ppid_storage')->exists($path)) {
+
+                    // Update database
                     $news->cover = $fileName;
 
-                    // baru hapus file lama
+                    // Hapus file lama
                     if ($oldImage) {
-                        Storage::delete('upload/news/' . $oldImage);
+                        Storage::disk('ppid_storage')->delete(
+                            'upload/news/' . $oldImage
+                        );
                     }
                 }
             }
@@ -197,7 +206,7 @@ class NewsController extends Controller
             $news->delete();
 
             if ($cover) {
-                Storage::delete('upload/news/' . $cover);
+                Storage::disk('ppid_storage')->delete('upload/news/' . $cover);
             }
 
             activity()->log('Delete Data News With ID = ' . $news->id);
@@ -211,8 +220,8 @@ class NewsController extends Controller
 
         if (!$request->hasFile('upload')) {
             return "<script>
-            window.parent.CKEDITOR.tools.callFunction($funcNum, '', 'Tidak ada file');
-        </script>";
+                window.parent.CKEDITOR.tools.callFunction($funcNum, '', 'Tidak ada file');
+            </script>";
         }
 
         try {
@@ -225,30 +234,43 @@ class NewsController extends Controller
 
             $manager = new ImageManager(new Driver());
 
-            // 🔥 WAJIB pakai getPathname()
+            // Baca file upload
             $image = $manager->read($file->getPathname());
 
-            // Resize optional
+            // Optional resize
             // if ($image->width() > 1200) {
             //     $image->scale(width: 1200);
             // }
 
-            // Encode ke webp
+            // Encode WebP
             $encoded = $image->toWebp(75);
 
-            // 🔥 WAJIB pakai disk public
-            Storage::disk('public')->put('upload/news_image/' . $fileName, $encoded);
+            // Path relatif terhadap root disk
+            $path = 'upload/news_image/' . $fileName;
 
-            $url = asset('storage/upload/news_image/' . $fileName);
+            // Simpan
+            Storage::disk('ppid_storage')->put($path, $encoded);
+
+            // URL file
+            $url = Storage::disk('ppid_storage')->url($path);
 
             return "<script>
-            window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', 'Upload berhasil');
-        </script>";
+                window.parent.CKEDITOR.tools.callFunction(
+                    $funcNum,
+                    '$url',
+                    'Upload berhasil'
+                );
+            </script>";
+
         } catch (\Exception $e) {
 
             return "<script>
-            window.parent.CKEDITOR.tools.callFunction($funcNum, '', 'Error: {$e->getMessage()}');
-        </script>";
+                window.parent.CKEDITOR.tools.callFunction(
+                    $funcNum,
+                    '',
+                    'Error: " . addslashes($e->getMessage()) . "'
+                );
+            </script>";
         }
     }
 }

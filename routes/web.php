@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PopupController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +34,14 @@ Route::get('/buat_storage', function () {
     dd("Storage Berhasil Di Buat");
 });
 
+
+Route::get('/', [WebController::class, 'index']);
+Route::get('/index2', [WebController::class, 'index2']);
+Route::get('/page-about', [WebController::class, 'profile']);
+Route::get('/page-vision-mission', [WebController::class, 'profile']);
+Route::get('/page-main-tasks', [WebController::class, 'profile']);
+Route::get('/page-structure', [WebController::class, 'profile']);
+Route::get('/page-profile-list/{menu}', [WebController::class, 'profile_list']);
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -67,6 +77,16 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/structure', [ProfileController::class, 'index']);
     Route::post('/profile/validate', [ProfileController::class, 'validation']);
     Route::put('/profile/edit/{profile}', [ProfileController::class, 'update']);
+
+    ## News
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/list', [NewsController::class, 'get_news_index'])->name('news.list');
+    Route::post('/news/upload_image', [NewsController::class, 'upload_image'])->name('upload_news');
+    Route::post('/news/store', [NewsController::class, 'store']);
+    Route::post('/news/validate/{action}', [NewsController::class, 'validate']);
+    Route::get('/news/edit/{news}', [NewsController::class, 'edit']);
+    Route::put('/news/edit/{news}', [NewsController::class, 'update']);
+    Route::get('/news/delete/{news}', [NewsController::class, 'delete']);
 
     ## Information
     Route::get('/information/{category}', [InformationController::class, 'index'])->name('information.index');
@@ -128,6 +148,5 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/setting', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/setting/validate', [SettingController::class, 'validate']);
     Route::put('/setting/edit/{setting}', [SettingController::class, 'update']);
-
 
 });

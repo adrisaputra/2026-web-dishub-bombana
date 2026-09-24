@@ -8,8 +8,7 @@ $setting = \App\Helpers\Helpers::setting();
 	.profile-page-title {
 		background: linear-gradient(135deg,
 			rgba(249, 201, 0, 0.90),
-			rgba(233, 169, 0, 0.90)),
-		url('{{ asset(' storage/yellow_gradient_low_poly_background.jpg') }}') center center / cover no-repeat;
+			rgba(233, 169, 0, 0.90)) center center / cover no-repeat;
 
 		color: #fff;
 	}

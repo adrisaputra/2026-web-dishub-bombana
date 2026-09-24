@@ -42,6 +42,9 @@ Route::get('/page-vision-mission', [WebController::class, 'profile']);
 Route::get('/page-main-tasks', [WebController::class, 'profile']);
 Route::get('/page-structure', [WebController::class, 'profile']);
 Route::get('/page-profile-list/{menu}', [WebController::class, 'profile_list']);
+Route::get('/page-news', [WebController::class, 'news']);
+Route::get('/page-news-list', [WebController::class, 'news_list']);
+Route::get('/page-news-detail', [WebController::class, 'news_detail']);
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);

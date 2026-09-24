@@ -419,7 +419,7 @@
 								<li class="menu-item current"><a class="menu-link" href="{{ url('/') }}" @if(Request::segment(1)==NULL) style="color: #F5C400;" @else style="color: white;" @endif>
 										<div>Beranda</div>
 									</a></li>
-								<li class="menu-item"><a class="menu-link" href="#" @if(in_array(Request::segment(1), array('page-opening-speech','page-about','page-vision-mission','page-structure'))) style="color: #4b575c;" @else style="color: white;" @endif>
+								<li class="menu-item"><a class="menu-link" href="#" @if(in_array(Request::segment(1), array('page-opening-speech','page-about','page-vision-mission','page-structure'))) style="color: #F5C400;" @else style="color: white;" @endif>
 										<div>Profil</div>
 									</a>
 									<ul class="sub-menu-container">

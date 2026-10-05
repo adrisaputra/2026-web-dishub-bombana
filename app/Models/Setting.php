@@ -25,6 +25,7 @@ class Setting extends Model
         'youtube',
         'instagram',
         'facebook',
+        'twitter',
         'whatsapp'
     ];
     

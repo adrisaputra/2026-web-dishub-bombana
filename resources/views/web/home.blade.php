@@ -3,6 +3,74 @@
 @php
 $setting = \App\Helpers\Helpers::setting();
 @endphp
+<style>
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        text-align: center;
+    }
+
+    .calendar-day-name {
+        font-size: 11px;
+        font-weight: 600;
+        color: #6c757d;
+        padding-bottom: 5px;
+    }
+
+    .calendar-date {
+        font-size: 13px;
+        padding: 7px 2px;
+        border-radius: 8px;
+    }
+
+    .calendar-date.today {
+        background: #2563eb;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<!-- Modal -->
+    @if($popup->count() > 0)
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="--bs-modal-margin: 8.75rem;--bs-modal-width: 664px;display: block;" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Infomasi</h4>
+            
+          </div>
+          <div class="modal-body">
+            <div id="myCarousels" class="carousel slide" data-ride="carousel" style="width: 100%;height:50%;">
+
+              <ol class="carousel-indicators">
+                @foreach($popup as $i => $v)
+                <li data-target="#myCarousels" data-slide-to="{{ $i }}" class="@if($i==0) active @endif" style=""></li>
+                @endforeach
+              </ol>
+
+              <div class="carousel-inner">
+                @foreach($popup as $i => $v)
+                <div class="item @if($i==0) active @endif">
+                <img src="{{ asset('storage/upload/popup/'.$v->image) }}" alt="Los Angeles" style="width: 100%;height: 50%;background-position: top;">
+                </div>
+                @endforeach
+              </div>
+
+              <a class="left carousel-control" href="#myCarousels" data-slide="prev">
+              </a>
+              <a class="right carousel-control" href="#myCarousels" data-slide="next">
+              </a>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
+	
 <section id="slider" class="slider-element slider-parallax swiper_wrapper min-vh-100 vh-100" data-autoplay="7000" data-speed="500" data-loop="true">
 
 	<div class="swiper-container swiper-parent">
@@ -35,7 +103,7 @@ $setting = \App\Helpers\Helpers::setting();
 
 						<!-- Foto Kepala Dinas -->
 						<div class="sambutan-image">
-							<img src="https://perdagkop-umkm.com/upload/profile/1751875451.png"
+							<img src="{{ asset('storage/upload/profile/' . $profile->image) }}"
 								alt="Kepala Dinas Perhubungan">
 						</div>
 
@@ -43,35 +111,7 @@ $setting = \App\Helpers\Helpers::setting();
 						<div class="sambutan-content">
 							<span class="badge bg-danger mb-3">KATA SAMBUTAN</span>
 
-							<h2 class="fw-bold mb-3">
-								Kepala Dinas Perhubungan
-							</h2>
-
-							<p class="text-muted mb-3">
-								Assalamu'alaikum Warahmatullahi Wabarakatuh.
-							</p>
-
-							<p class="text-muted line-clamp-4">
-								Puji syukur kita panjatkan ke hadirat Tuhan Yang Maha Esa.
-								Selamat datang di website resmi Dinas Perhubungan.
-								Website ini diharapkan dapat menjadi media informasi dan
-								komunikasi bagi masyarakat dalam memperoleh berbagai
-								informasi terkait pelayanan dan kegiatan Dinas Perhubungan.
-							</p>
-
-							<p class="text-muted line-clamp-3">
-								Kami terus berkomitmen untuk memberikan pelayanan yang
-								profesional, transparan, dan mudah diakses oleh masyarakat.
-							</p>
-
-							<div class="mt-4">
-								<strong class="d-block">
-									Budi Santoso, S.STP., M.Si.
-								</strong>
-								<small class="text-muted">
-									Kepala Dinas Perhubungan
-								</small>
-							</div>
+							{!! $profile->text !!}
 						</div>
 
 					</div>
@@ -98,122 +138,42 @@ $setting = \App\Helpers\Helpers::setting();
 
 			<div class="row g-4">
 
+				@foreach($news as $v)
 				<!-- Berita 1 -->
 				<div class="col-md-4">
 					<div class="card news-card border-0 shadow-sm h-100">
 
 						<div class="news-card-img-wrapper">
-							<img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80"
+							<img src="{{ Storage::disk('ppid_storage')->url('upload/news/'.$v->cover) }}"
 								class="img-fluid w-100"
 								alt="Berita">
 						</div>
 
 						<div class="card-body p-4">
-							{{--<span class="badge bg-danger-subtle text-danger mb-2">
-								Kegiatan
-							</span>--}}
-
 							<h5 class="fw-bold line-clamp-2 mb-2">
-								Dinas Perhubungan Gelar Sosialisasi Keselamatan Berlalu Lintas
+								{{ $v->title }}
 							</h5>
 
 							<p class="text-muted small line-clamp-2 mb-3">
-								Kegiatan sosialisasi dilaksanakan sebagai upaya meningkatkan
-								kesadaran masyarakat dalam berlalu lintas.
+								{!! Str::limit(strip_tags($v->text), 200, ' ...') !!}
 							</p>
 
 							<div class="d-flex justify-content-between text-muted small">
 								<span>
 									<i class="bi bi-calendar3 me-1"></i>
-									20 Sep 2026
+									{{ \Carbon\Carbon::parse($v->created_at)->format('d M Y') }}
 								</span>
 
 								<span>
 									<i class="bi bi-clock me-1"></i>
-									3 min
+									{{ \Carbon\Carbon::parse($v->created_at)->diffForHumans() }}
 								</span>
 							</div>
 						</div>
 
 					</div>
 				</div>
-
-
-				<!-- Berita 2 -->
-				<div class="col-md-4">
-					<div class="card news-card border-0 shadow-sm h-100">
-
-						<div class="news-card-img-wrapper">
-							<img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
-								class="img-fluid w-100"
-								alt="Berita">
-						</div>
-
-						<div class="card-body p-4">
-
-							<h5 class="fw-bold line-clamp-2 mb-2">
-								Program Peningkatan Pelayanan Transportasi Tahun 2026
-							</h5>
-
-							<p class="text-muted small line-clamp-2 mb-3">
-								Pemerintah daerah terus meningkatkan kualitas pelayanan
-								transportasi bagi masyarakat.
-							</p>
-
-							<div class="d-flex justify-content-between text-muted small">
-								<span>
-									<i class="bi bi-calendar3 me-1"></i>
-									19 Sep 2026
-								</span>
-
-								<span>
-									<i class="bi bi-clock me-1"></i>
-									4 min
-								</span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-
-				<!-- Berita 3 -->
-				<div class="col-md-4">
-					<div class="card news-card border-0 shadow-sm h-100">
-
-						<div class="news-card-img-wrapper">
-							<img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80"
-								class="img-fluid w-100"
-								alt="Berita">
-						</div>
-
-						<div class="card-body p-4">
-
-							<h5 class="fw-bold line-clamp-2 mb-2">
-								Peningkatan Kualitas Pelayanan Publik di Bidang Transportasi
-							</h5>
-
-							<p class="text-muted small line-clamp-2 mb-3">
-								Berbagai inovasi pelayanan terus dikembangkan untuk
-								memberikan kemudahan kepada masyarakat.
-							</p>
-
-							<div class="d-flex justify-content-between text-muted small">
-								<span>
-									<i class="bi bi-calendar3 me-1"></i>
-									18 Sep 2026
-								</span>
-
-								<span>
-									<i class="bi bi-clock me-1"></i>
-									3 min
-								</span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
+				@endforeach
 			</div>
 
 		</section>
@@ -245,185 +205,61 @@ $setting = \App\Helpers\Helpers::setting();
 			<div class="col-lg-8">
 				<div class="row g-4">
 
+					@foreach($information as $i => $v)
+
 					<!-- Article Card 1 -->
-					<div class="col-md-6 news-item" data-category="Program dan Kegiatan">
+					<div class="col-md-6 news-item"
+						@if($v->category == 1)
+						data-category="Program dan Kegiatan"
+						@elseif($v->category == 2)
+						data-category="Pelayanan"
+						@elseif($v->category == 3)
+						data-category="Transportasi"
+						@elseif($v->category == 4)
+						data-category="Perizinan dan Pelayanan"
+						@elseif($v->category == 5)
+						data-category="Lainnya"
+						@endif
+						>
 						<div class="card news-card">
 							<div class="news-card-img-wrapper">
 								<button class="btn-bookmark" title="Simpan Artikel">
 									<i class="bi bi-bookmark"></i>
 								</button>
-								<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Berita AI">
+								<img src="{{ asset('storage/upload/information/' . $v->cover) }}" alt="Berita AI">
 							</div>
 							<div class="card-body p-4 d-flex flex-column justify-content-between">
 								<div>
 									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-danger-subtle text-danger badge-category">Teknologi</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>3 min baca</small>
+										@if($v->category == 1)
+										<span class="badge bg-danger-subtle text-danger badge-category">Program dan Kegiatan</span>
+										@elseif($v->category == 2)
+										<span class="badge bg-success-subtle text-success badge-category">Pelayanan</span>
+										@elseif($v->category == 3)
+										<span class="badge bg-info-subtle text-info badge-category">Transportasi</span>
+										@elseif($v->category == 4)
+										<span class="badge bg-warning-subtle text-warning badge-category">Perizinan dan Pelayanan</span>
+										@elseif($v->category == 5)
+										<span class="badge bg-secondary-subtle text-secondary badge-category">Lainnya</span>
+										@endif
+										<small class="text-muted"><i class="bi bi-clock me-1"></i>{{ $v->created_at->diffForHumans() }}</small>
 									</div>
 									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										Inovasi AI Terbaru Resmi Diperkenalkan di Jakarta, Merevolusi Industri Lokal
+										{{ $v->title }}
 									</h5>
 									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Peluncuran teknologi AI generasi baru ini menjanjikan efisiensi tinggi pada sektor UMKM dan manufaktur nasional.
+										{!! Str::limit(strip_tags($v->text), 200, ' ...') !!}
 									</p>
 								</div>
 								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Budi Santoso</span>
-									<span>20 Sep 2026</span>
+									<span><i class="bi bi-person me-1"></i>{{ $v->user->name }}</span>
+									<span>{{ $v->created_at->format('d M Y') }}</span>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Article Card 2 -->
-					<div class="col-md-6 news-item" data-category="Pelayanan">
-						<div class="card news-card">
-							<div class="news-card-img-wrapper">
-								<button class="btn-bookmark" title="Simpan Artikel">
-									<i class="bi bi-bookmark"></i>
-								</button>
-								<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80" alt="Berita IHSG">
-							</div>
-							<div class="card-body p-4 d-flex flex-column justify-content-between">
-								<div>
-									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-success-subtle text-success badge-category">Ekonomi</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>4 min baca</small>
-									</div>
-									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										IHSG Hari Ini Menutup Perdagangan dengan Rekor Tertinggi Baru
-									</h5>
-									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Laju Indeks Harga Saham Gabungan melesat ditopang oleh sektor perbankan dan emiten energi terbarukan.
-									</p>
-								</div>
-								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Siti Rahma</span>
-									<span>20 Sep 2026</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Article Card 3 -->
-					<div class="col-md-6 news-item" data-category="Transportasi">
-						<div class="card news-card">
-							<div class="news-card-img-wrapper">
-								<button class="btn-bookmark" title="Simpan Artikel">
-									<i class="bi bi-bookmark"></i>
-								</button>
-								<img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" alt="Berita Olahraga">
-							</div>
-							<div class="card-body p-4 d-flex flex-column justify-content-between">
-								<div>
-									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-warning-subtle text-warning-emphasis badge-category">Olahraga</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>5 min baca</small>
-									</div>
-									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										Persiapan Timnas Jelang Laga Penentu Pertandingan Internasional
-									</h5>
-									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Pelatih fokus memperkuat lini pertahanan dan efektivitas serangan balik cepat menjelang laga krusial.
-									</p>
-								</div>
-								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Andi Wijaya</span>
-									<span>19 Sep 2026</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Article Card 4 -->
-					<div class="col-md-6 news-item" data-category="Perizinan dan Pelayanan">
-						<div class="card news-card">
-							<div class="news-card-img-wrapper">
-								<button class="btn-bookmark" title="Simpan Artikel">
-									<i class="bi bi-bookmark"></i>
-								</button>
-								<img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80" alt="Berita Konser">
-							</div>
-							<div class="card-body p-4 d-flex flex-column justify-content-between">
-								<div>
-									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-info-subtle text-info-emphasis badge-category">Hiburan</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>2 min baca</small>
-									</div>
-									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										Konser Musik Internasional Siap Digelar Akhir Pekan Ini
-									</h5>
-									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Penyelenggara memastikan persiapan lokasi acara serta keamanan telah mencapai tahap akhir.
-									</p>
-								</div>
-								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Rina Permata</span>
-									<span>19 Sep 2026</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Article Card 5 -->
-					<div class="col-md-6 news-item" data-category="Program dan Kegiatan">
-						<div class="card news-card">
-							<div class="news-card-img-wrapper">
-								<button class="btn-bookmark" title="Simpan Artikel">
-									<i class="bi bi-bookmark"></i>
-								</button>
-								<img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="PLTS Terapung">
-							</div>
-							<div class="card-body p-4 d-flex flex-column justify-content-between">
-								<div>
-									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-danger-subtle text-danger badge-category">Teknologi</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>4 min baca</small>
-									</div>
-									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										Pembangkit Listrik Tenaga Surya Terapung Resmi Beroperasi
-									</h5>
-									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Proyek PLTS Terapung terbesar di Asia Tenggara mulai menyalurkan listrik bersih secara konsisten ke ribuan rumah.
-									</p>
-								</div>
-								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Dian Kusuma</span>
-									<span>18 Sep 2026</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Article Card 6 -->
-					<div class="col-md-6 news-item" data-category="Lainnya">
-						<div class="card news-card">
-							<div class="news-card-img-wrapper">
-								<button class="btn-bookmark" title="Simpan Artikel">
-									<i class="bi bi-bookmark"></i>
-								</button>
-								<img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80" alt="Politik">
-							</div>
-							<div class="card-body p-4 d-flex flex-column justify-content-between">
-								<div>
-									<div class="d-flex align-items-center justify-content-between mb-2">
-										<span class="badge bg-primary-subtle text-primary badge-category">Politik</span>
-										<small class="text-muted"><i class="bi bi-clock me-1"></i>3 min baca</small>
-									</div>
-									<h5 class="fw-bold card-title line-clamp-2 mb-2">
-										Diskusi Kebijakan Publik: RUU Transparansi Digital Diumumkan
-									</h5>
-									<p class="card-text text-muted small line-clamp-3 mb-3">
-										Rancangan undang-undang baru berfokus pada pelindungan data pribadi dan asas transparansi informasi publik.
-									</p>
-								</div>
-								<div class="d-flex align-items-center justify-content-between pt-3 border-top text-muted small">
-									<span><i class="bi bi-person me-1"></i>Hendra Gunawan</span>
-									<span>18 Sep 2026</span>
-								</div>
-							</div>
-						</div>
-					</div>
+					@endforeach
 
 				</div>
 
@@ -443,7 +279,7 @@ $setting = \App\Helpers\Helpers::setting();
 				<div class="d-flex flex-column gap-4">
 
 					<!-- Trending News Widget -->
-					<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+					{{--<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
 						<h5 class="fw-bold mb-3 border-bottom pb-2">
 							<i class="bi bi-fire text-danger me-2"></i>Berita Terpopuler
 						</h5>
@@ -486,10 +322,79 @@ $setting = \App\Helpers\Helpers::setting();
 							</div>
 
 						</div>
+					</div>--}}
+
+					<!-- Weather Info Widget -->
+					<div class="card border-0 p-4 rounded-4 shadow-sm"
+						style="background: linear-gradient(135deg, #ffffff, #ffffff);">
+
+						<div class="d-flex justify-content-between align-items-center mb-2">
+							<div>
+								<h6 class="m-0 fw-bold">Cuaca Hari Ini</h6>
+								<small style="opacity: 0.8;color: black;">Bombana, Indonesia</small>
+							</div>
+
+							<i id="weather-icon" class="bi bi-cloud-sun fs-1"></i>
+						</div>
+
+						<div class="d-flex align-items-baseline gap-2">
+							<h1 id="weather-temperature"
+								class="display-5 fw-bold m-0">
+								--
+							</h1>
+
+							<span id="weather-status" class="fs-6">
+								Memuat...
+							</span>
+						</div>
+
+						<small class="mt-2 d-block" style="opacity: 0.8;color: black;">
+							Terasa seperti <span id="weather-feels-like">--</span>°C
+							· Kelembapan <span id="weather-humidity">--</span>%
+						</small>
+					</div>
+
+					<div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="background: linear-gradient(135deg, #ffffff, #ffffff);">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<div>
+								<h6 class="m-0 fw-bold">Kalender</h6>
+								<small class="text-muted" id="calendar-month"></small>
+							</div>
+
+							<i class="bi bi-calendar3 fs-3 text-primary"></i>
+						</div>
+
+						<div id="calendar"></div>
+					</div>
+
+					<div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="background: linear-gradient(135deg, #ffffff, #ffffff);">
+						<h6 class="fw-bold mb-3">
+							<i class="bi bi-facebook text-primary"></i>
+							Facebook
+						</h6>
+
+						<div class="fb-page"
+							data-href="https://www.facebook.com/dishub.kabupatenbombana"
+							data-tabs="timeline"
+							data-width=""
+							data-height="400"
+							data-small-header="false"
+							data-adapt-container-width="true"
+							data-hide-cover="false"
+							data-show-facepile="true">
+
+							<blockquote cite="https://www.facebook.com/dishub.kabupatenbombana"
+										class="fb-xfbml-parse-ignore">
+								<a href="https://www.facebook.com/dishub.kabupatenbombana">
+									Facebook
+								</a>
+							</blockquote>
+
+						</div>
 					</div>
 
 					<!-- YouTube Video Widget -->
-					<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+					{{--<div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="background: linear-gradient(135deg, #ffffff, #ffffff);">
 
 						<h5 class="fw-bold mb-3 border-bottom pb-2">
 							<i class="bi bi-youtube text-danger me-2"></i>
@@ -551,37 +456,7 @@ $setting = \App\Helpers\Helpers::setting();
 
 						</div>
 
-					</div>
-
-					<!-- Weather Info Widget -->
-					<div class="card border-0 text-white p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
-						<div class="d-flex justify-content-between align-items-center mb-2">
-							<div>
-								<h6 class="m-0 fw-bold">Cuaca Hari Ini</h6>
-								<small opacity="0.8">Jakarta, Indonesia</small>
-							</div>
-							<i class="bi bi-cloud-sun fs-1"></i>
-						</div>
-						<div class="d-flex align-items-baseline gap-2">
-							<h1 class="display-5 fw-bold m-0">29°C</h1>
-							<span class="fs-6">Cerah Berawan</span>
-						</div>
-					</div>
-
-					<!-- Newsletter Form Widget -->
-					<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-						<div class="text-center mb-3">
-							<i class="bi bi-envelope-paper fs-1 text-danger"></i>
-							<h5 class="fw-bold mt-2">Langganan Buletin</h5>
-							<p class="text-muted small">Dapatkan rangkuman berita terupdate langsung ke email Anda setiap pagi.</p>
-						</div>
-						<form action="#">
-							<div class="mb-3">
-								<input type="email" class="form-control rounded-pill" placeholder="Alamat email Anda..." required>
-							</div>
-							<button type="submit" class="btn btn-danger w-100 rounded-pill fw-bold">Berlangganan Gratis</button>
-						</form>
-					</div>
+					</div>--}}
 
 				</div>
 			</div>
@@ -841,71 +716,8 @@ $setting = \App\Helpers\Helpers::setting();
 </section><!-- #content end -->
 --}}
 
-<script>
-	// Initialize the map
-	var mymap = L.map('map').setView([-3.995826, 122.501631], 13); // Centered at (0, 0) with zoom level 2
 
-	// Add the OpenStreetMap tile layer
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		attribution: '© OpenStreetMap contributors'
-	}).addTo(mymap);
-
-	// Define the coordinates for the markers and pop-up content
-	var markers = [{
-			lat: -3.999283,
-			lon: 122.496052,
-			popupText: 'Marker 1'
-		},
-		{
-			lat: -3.999839,
-			lon: 122.515751,
-			popupText: 'Marker 2'
-		},
-		{
-			lat: -3.995826,
-			lon: 122.501631,
-			popupText: 'Marker 3'
-		}
-	];
-
-	// Loop through the markers array and add them to the map
-	markers.forEach(function(marker) {
-		L.marker([marker.lat, marker.lon]).addTo(mymap)
-			.bindPopup(marker.popupText);
-	});
-</script>
-<script>
-	$(document).ready(function() {
-		$("#oc-images").owlCarousel({
-			items: 4,
-			loop: true,
-			margin: 10,
-			autoplay: true,
-			autoplayTimeout: 3000,
-			autoplayHoverPause: true,
-			nav: true, // ✅ Tampilkan tombol navigasi
-			dots: true, // (opsional) sembunyikan titik navigasi bawah
-			navText: [
-				'<i class="icon-angle-left"></i>',
-				'<i class="icon-angle-right"></i>'
-			],
-			responsive: {
-				0: {
-					items: 2
-				},
-				576: {
-					items: 3
-				},
-				992: {
-					items: 4
-				},
-				1200: {
-					items: 5
-				}
-			}
-		});
-	});
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 
@@ -949,5 +761,100 @@ $setting = \App\Helpers\Helpers::setting();
 
 	});
 </script>
+<script>
+    function loadWeather() {
 
+        $.get('{{ url('/weather') }}', function (data) {
+
+            $('#weather-temperature').text(data.temperature + '°C');
+            $('#weather-status').text(data.weather);
+            $('#weather-feels-like').text(data.feels_like);
+            $('#weather-humidity').text(data.humidity);
+
+            let icon = 'bi-cloud-sun';
+
+            if ([61, 63, 65, 80, 81, 82].includes(data.weather_code)) {
+                icon = 'bi-cloud-rain';
+            } else if ([95, 96, 99].includes(data.weather_code)) {
+                icon = 'bi-cloud-lightning';
+            } else if (data.weather_code === 3) {
+                icon = 'bi-clouds';
+            } else if (data.weather_code === 0) {
+                icon = 'bi-sun';
+            }
+
+            $('#weather-icon')
+                .removeClass()
+                .addClass('bi ' + icon + ' fs-1');
+        });
+    }
+
+    loadWeather();
+</script>
+
+<script>
+    function generateCalendar() {
+
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const date = today.getDate();
+
+        const monthNames = [
+            'Januari', 'Februari', 'Maret',
+            'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September',
+            'Oktober', 'November', 'Desember'
+        ];
+
+        const dayNames = [
+            'Min', 'Sen', 'Sel', 'Rab',
+            'Kam', 'Jum', 'Sab'
+        ];
+
+        $('#calendar-month').text(
+            monthNames[month] + ' ' + year
+        );
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let html = `
+            <div class="calendar-grid">
+        `;
+
+        // Nama hari
+        dayNames.forEach(day => {
+            html += `
+                <div class="calendar-day-name">
+                    ${day}
+                </div>
+            `;
+        });
+
+        // Kotak kosong sebelum tanggal 1
+        for (let i = 0; i < firstDay; i++) {
+            html += `<div></div>`;
+        }
+
+        // Tanggal
+        for (let day = 1; day <= daysInMonth; day++) {
+
+            const isToday = day === date;
+
+            html += `
+                <div class="calendar-date ${isToday ? 'today' : ''}">
+                    ${day}
+                </div>
+            `;
+        }
+
+        html += `</div>`;
+
+        $('#calendar').html(html);
+    }
+
+    generateCalendar();
+</script>
 @endsection

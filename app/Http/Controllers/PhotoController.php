@@ -82,6 +82,7 @@ class PhotoController extends Controller
     {
         if ($request->ajax()) {
             $photo = New Photo();
+            $photo->album_id = $request->album_id;
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');

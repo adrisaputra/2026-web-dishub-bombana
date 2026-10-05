@@ -62,6 +62,7 @@ return [
 
         'ppid_storage' => [
             'driver' => 'local',
+            // 'root' => base_path('../../ppid.bombanakab.go.id/public_html'),
             'root' => base_path('../web-ppid-bombana/public'),
             'url' => env('PPID_STORAGE_URL'),
             'throw' => false,

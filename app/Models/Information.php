@@ -24,9 +24,9 @@ class Information extends Model
     }
 
     ## Relation
-    public function news_viewer()
+    public function information_viewer()
     {
-        return $this->hasMany('App\Models\NewsViewer');
+        return $this->hasMany('App\Models\InformationViewer');
     }
 
 }

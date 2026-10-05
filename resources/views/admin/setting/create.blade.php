@@ -48,6 +48,13 @@
             </div>
         </div>
         <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">URL Twitter</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" name="twitter" id="twitter" class="form-control" placeholder="URL Twitter" value="{{ $setting->twitter }}"/>
+                <div id="twitter-error" class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">URL Whatsapp</label>
             <div class="col-lg-8 fv-row">
                 <input type="text" name="whatsapp" id="whatsapp" class="form-control" placeholder="URL Whatsapp" value="{{ $setting->whatsapp }}"/>

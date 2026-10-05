@@ -114,6 +114,26 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        // 'ppid_mysql' => [
+        //     'driver' => 'mysql',
+        //     'url' => env('DATABASE_URL'),
+        //     'host' => env('PPID_DB_HOST', '127.0.0.1'),
+        //     'port' => env('PPID_DB_PORT', '3306'),
+        //     'database' => env('PPID_DB_DATABASE', 'bomban08_db_web_ppid'),
+        //     'username' => env('PPID_DB_USERNAME', 'bomban08_db_web_ppid'),
+        //     'password' => env('PPID_DB_PASSWORD', 'wqsftbzSCwdx46b'),
+        //     'unix_socket' => env('DB_SOCKET', ''),
+        //     'charset' => 'utf8mb4',
+        //     'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        //     'strict' => true,
+        //     'engine' => null,
+        //     'options' => extension_loaded('pdo_mysql') ? array_filter([
+        //         PDO::ATTR_EMULATE_PREPARES => true,
+        //     ]) : [],
+        // ],
+
         'ppid_mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

@@ -3,34 +3,106 @@
 
 <head>
 
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="SemiColonWeb" />
+	<meta charset="utf-8">
+
+	<!-- Document Title
+	============================================= -->
+	@if(Request::segment(1)=="page-news-detail")
+		<title>{{ $news->title }} | {{ $setting->application_name }}</title>
+	@else
+		<title>{{ $setting->application_name }}</title>
+	@endif
+
+	<link rel="icon" type="image/x-icon" href="{{ asset('storage/upload/setting/'.$setting->small_icon) }}" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="index,follow">
+	<link rel="canonical" href="{{ url()->current() }}">
+	
+	@if(Request::segment(1)=="page-news-detail" )
+		<meta property="og:title" content="{{ $news->title }}">
+		<meta name="description" content="{{ Str::limit(strip_tags($news->text), 100, ' ...') }}">
+		<meta name="author" content="{{ $setting->application_name }}">
+		<meta name="keywords" content="{{ $news->title }}, berita desa, {{ $setting->application_name }}">
+		<meta property="og:locale" content="id_ID">
+		<meta property="og:type" content="article">
+		<meta property="og:description" content="{{ Str::limit(strip_tags($news->text), 150) }}">
+		<meta property="og:url" content="{{ url()->current() }}">
+		<meta property="og:site_name" content="{{ $setting->application_name }}">
+		<meta property="og:image" content="{{ asset('storage/upload/news/'.$news->cover) }}">
+		<meta property="og:image:secure_url" content="{{ asset('storage/upload/news/'.$news->cover) }}" />
+		<meta property="og:image:type" content="image/jpeg" />
+		<meta property="og:image:width" content="1200">
+		<meta property="og:image:height" content="630">
+		<meta property="og:image:alt" content="{{ $news->title }}">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="{{ $news->title }}">
+		<meta name="twitter:description" content="{{ Str::limit(strip_tags($news->text),150) }}">
+		<meta name="twitter:image" content="{{ asset('storage/upload/news/'.$news->cover) }}">
+		<meta name="twitter:image:alt" content="{{ $news->title }}">
+	@else
+		<meta name="description" content="{{ $setting->application_name }} merupakan website resmi yang menyediakan informasi, publikasi, layanan administrasi, permintaan data, permintaan surat keterangan, dan pengaduan masyarakat.">
+		<meta name="keywords" content="Desa, Kelurahan, Pemerintah Desa, Pemerintah Kelurahan, Layanan Desa, Permintaan Data, Surat Keterangan, Pengaduan, Statistik Penduduk, Profil Desa">
+		<meta name="author" content="{{ $setting->application_name }}">
+		<meta property="og:locale" content="id_ID">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="{{ $setting->application_name }}">
+		<meta property="og:description" content="Website resmi {{ $setting->application_name }} yang menyediakan informasi dan layanan publik secara online.">
+		<meta property="og:url" content="{{ url()->current() }}">
+		<meta property="og:site_name" content="{{ $setting->application_name }}">
+
+		<meta property="og:image" content="{{ asset('storage/upload/setting/'.$setting->logo) }}">
+		<meta property="og:image:secure_url" content="{{ asset('storage/upload/setting/'.$setting->logo) }}">
+		<meta property="og:image:type" content="image/png">
+		<meta property="og:image:alt" content="{{ $setting->application_name }}">
+
+		<meta name="twitter:image:alt" content="{{ $setting->application_name }}">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="{{ $setting->application_name }}">
+		<meta name="twitter:description" content="Website resmi {{ $setting->application_name }}.">
+		<meta name="twitter:image" content="{{ asset('storage/upload/setting/'.$setting->logo) }}">
+	@endif
 
 	<!-- Stylesheets
 	============================================= -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
-
-	<!-- Bootstrap 5 CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Bootstrap Icons -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+	
+	<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('frontend/style.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('frontend/css/swiper.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('frontend/css/dark.css') }}" type="text/css" />
+	
 
 	<!-- Construction Demo Specific Stylesheet -->
 	<link rel="stylesheet" href="{{ asset('frontend/demos/construction/construction.css') }}" type="text/css" />
 	<!-- / -->
 
-	<link rel="stylesheet" href="{{ asset('frontend/css/dark.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('frontend/css/font-icons.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('frontend/css/animate.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}" type="text/css" />
 
+	<link rel="stylesheet" href="{{ asset('frontend/app.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('frontend/add.css') }}" type="text/css" />
+
+	<!-- Bootstrap Select CSS -->
+	<link rel="stylesheet" href="{{ asset('frontend/css/components/bs-select.css') }}" type="text/css" />
+
+	<!-- Bootstrap Switch CSS -->
+	<link rel="stylesheet" href="{{ asset('frontend/css/components/bs-switches.css') }}" type="text/css" />
+
+	<!-- Range Slider CSS -->
+	<link rel="stylesheet" href="{{ asset('frontend/css/components/ion.rangeslider.css') }}" type="text/css" />
+
+	<link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}" type="text/css" />
+	
+	<link rel="stylesheet" href="{{ asset('frontend/bootstrap.css') }}" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link rel="stylesheet" href="{{ asset('frontend/css/colors.php?color=F5C400') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('frontend/beauty.css') }}" type="text/css" />
 
 	<!-- Document Title
 	============================================= -->
@@ -372,23 +444,24 @@
 				<div class="row align-items-center">
 					<div class="col-md-3 d-none d-md-flex align-items-center gap-2 text-secondary">
 						<i class="bi bi-calendar3"></i>
-						<span>Minggu, 20 September 2026</span>
+						<span>{{ \App\Helpers\Helpers::day_name(date('l')) }}, {{ \App\Helpers\Helpers::month_indo_full(date('d-m-Y')) }}</span>
 					</div>
 					<div class="col-md-6 col-12">
 						<div class="d-flex align-items-center gap-2">
-							<span class="badge bg-danger text-uppercase px-2 py-1">Terkini</span>
+							{{--<span class="badge bg-danger text-uppercase px-2 py-1">Terkini</span>--}}
 							<div class="ticker-wrapper w-100 text-truncate">
 								<div class="ticker-text fw-medium text-secondary">
-									🚀 Peluncuran Satelit Nusantara III Berhasil Dilakukan &nbsp;&bull;&nbsp; 📈 Pertumbuhan Ekonomi Kuartal Ini Naik 5.2% &nbsp;&bull;&nbsp; ⚽ Timnas Indonesia Masuk Babak Kualifikasi Utama
+									{{--🚀 Peluncuran Satelit Nusantara III Berhasil Dilakukan &nbsp;&bull;&nbsp; 📈 Pertumbuhan Ekonomi Kuartal Ini Naik 5.2% &nbsp;&bull;&nbsp; ⚽ Timnas Indonesia Masuk Babak Kualifikasi Utama--}}
+									Selamat Datang Di Website Resmi Dinas Perhubungan Kabupaten Bombana
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-3 d-none d-md-flex justify-content-end align-items-center gap-3 text-secondary">
-						<a href="#" class="text-reset text-decoration-none hover-danger"><i class="bi bi-facebook"></i></a>
-						<a href="#" class="text-reset text-decoration-none hover-danger"><i class="bi bi-twitter-x"></i></a>
-						<a href="#" class="text-reset text-decoration-none hover-danger"><i class="bi bi-instagram"></i></a>
-						<a href="#" class="text-reset text-decoration-none hover-danger"><i class="bi bi-youtube"></i></a>
+						<a href="{{ $setting->facebook }}" class="text-reset text-decoration-none hover-danger"><i class="bi bi-facebook"></i></a>
+						<a href="{{ $setting->twitter }}" class="text-reset text-decoration-none hover-danger"><i class="bi bi-twitter-x"></i></a>
+						<a href="{{ $setting->instagram }}" class="text-reset text-decoration-none hover-danger"><i class="bi bi-instagram"></i></a>
+						<a href="{{ $setting->youtube }}" class="text-reset text-decoration-none hover-danger"><i class="bi bi-youtube"></i></a>
 					</div>
 				</div>
 
@@ -437,28 +510,28 @@
 											</a></li>
 									</ul>
 								</li>
-								<li class="menu-item"><a class="menu-link" href="#" @if(in_array(Request::segment(1), array('page-news','page-announcement'))) style="color: #F5C400;" @else style="color: white;" @endif>
+								<li class="menu-item"><a class="menu-link" href="#" @if(in_array(Request::segment(1), array('page-information'))) style="color: #F5C400;" @else style="color: white;" @endif>
 										<div>Informasi Publik</div>
 									</a>
 									<ul class="sub-menu-container">
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-news') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-information/program-dan-kegiatan') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
 												<div>Program dan Kegiatan</div>
 											</a></li>
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-news') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-information/pelayanan-publik') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
 												<div>Pelayanan Publik</div>
 											</a></li>
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-announcement') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-information/transportasi-dan-fasilitas-perhubungan') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
 												<div>Transportasi dan Fasilitas Perhubungan</div>
 											</a></li>
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-announcement') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-information/perizinan-dan-persyaratan-pelayanan') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
 												<div>Perizinan dan Persyaratan Pelayanan</div>
 											</a></li>
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-announcement') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-information/lainnya') }}" @if(Request::segment(1)=='pageannouncement' ) style="color: #F5C400;" @endif>
 												<div>Lainnya</div>
 											</a></li>
 									</ul>
 								</li>
-								<li class="menu-item current"><a class="menu-link" href="{{ url('/') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @else style="color: white;" @endif>
+								<li class="menu-item current"><a class="menu-link" href="{{ url('/page-news') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @else style="color: white;" @endif>
 										<div>Berita</div>
 									</a></li>
 
@@ -466,17 +539,14 @@
 										<div>Galeri</div>
 									</a>
 									<ul class="sub-menu-container">
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-news') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-album') }}" @if(Request::segment(1)=='page-album' ) style="color: #F5C400;" @endif>
 												<div>Foto</div>
 											</a></li>
-										<li class="menu-item"><a class="menu-link" href="{{ url('page-news') }}" @if(Request::segment(1)=='page-news' ) style="color: #F5C400;" @endif>
+										<li class="menu-item"><a class="menu-link" href="{{ url('page-video') }}" @if(Request::segment(1)=='page-video' ) style="color: #F5C400;" @endif>
 												<div>Video</div>
 											</a></li>
 									</ul>
 								</li>
-								<li class="menu-item"><a class="menu-link" href="{{ url('page-contact') }}" @if(Request::segment(1)=="page-contact" ) style="color: #4b575c;" @else style="color: white;" @endif>
-										<div>Kontak</div>
-									</a></li>
 							</ul>
 
 						</nav><!-- #primary-menu end -->
@@ -556,59 +626,48 @@
     <!-- Footer -->
     <footer class="border-top mt-5 py-5" style="background: linear-gradient(135deg, #005A96 0%, #2a8bc9 50%, #1ea5fd 100%);">
         <div class="container">
-            <div class="row g-4 mb-4">
-                <div class="col-lg-4">
-                    <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="#">
-                        <i class="bi bi-newspaper fs-2 text-danger"></i>
-                        <span class="brand-logo">Nusantara<span class="text-white-custom fw-light">News</span></span>
+            <div class="row g-6 mb-4">
+                <div class="col-lg-6">
+                    <a class="navbar-brand d-flex align-items-center" href="#">
+                        <img src="{{ asset('storage/upload/setting/'.$setting->small_icon) }}" style="position: relative; opacity: 0.85; left: -10px; height: 80px; margin-bottom: 20px;width:70px" alt="Footer Logo">
+
                     </a>
-                    <p class=" text-white-custom small mb-3">Portal berita terpercaya menyajikan informasi terkini dari seluruh pelosok Nusantara secara cepat, akurat, dan berimbang.</p>
-                    <div class="d-flex gap-3 fs-5 text-white-custom">
-                        <a href="#" class="text-white-custom"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white-custom"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-white-custom"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white-custom"><i class="bi bi-youtube"></i></a>
-                    </div>
+                    <p class=" text-white-custom">Pemerintah Kabupaten Bombana<br>Website Resmi Dinas Perhubungan Kabupaten Bombana</p>
+                    
+					<div class="bottommargin-sm clearfix">
+						<a href="{{ $setting->facebook }}" target="_blank" class="social-icon si-colored si-small si-rounded si-facebook" title="Facebook">
+							<i class="icon-facebook"></i>
+							<i class="icon-facebook"></i>
+						</a>
+
+						<a href="{{ $setting->twitter }}" target="_blank" class="social-icon si-colored si-small si-rounded si-twitter" title="Twitter">
+							<i class="icon-twitter"></i>
+							<i class="icon-twitter"></i>
+						</a>
+
+						<a href="{{ $setting->instagram }}" target="_blank" class="social-icon si-colored si-small si-rounded si-instagram" title="Instagram">
+							<i class="icon-instagram"></i>
+							<i class="icon-instagram"></i>
+						</a>
+
+						<a href="{{ $setting->youtube }}" target="_blank" class="social-icon si-colored si-small si-rounded si-youtube" title="Youtube">
+							<i class="icon-youtube"></i>
+							<i class="icon-youtube"></i>
+						</a>
+
+					</div>
+
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="fw-bold mb-3 text-white-custom">Hubungi Kami</h6>
+					<p class="text-white-custom">{{ $setting->address }}<br>
+						<i class="icon-phone"></i>&nbsp;&nbsp;&nbsp;{{ $setting->phone }}<br>
+						<i class="icon-email"></i>&nbsp;&nbsp;&nbsp;{{ $setting->email }}
+					</p>
                 </div>
                 <div class="col-6 col-lg-2">
-                    <h6 class="fw-bold mb-3 text-white-custom">Kategori</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2 small text-white-custom">
-                        <li><a href="#" class="text-decoration-none text-reset">Teknologi</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Ekonomi</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Olahraga</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Politik</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Hiburan</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <h6 class="fw-bold mb-3 text-white-custom">Perusahaan</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2 small  text-white-custom">
-                        <li><a href="#" class="text-decoration-none text-reset">Tentang Kami</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Redaksi</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Karir</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Pedoman Siber</a></li>
-                        <li><a href="#" class="text-decoration-none text-reset">Kontak</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h6 class="fw-bold mb-3 text-white-custom">Aplikasi Mobile</h6>
-                    <p class=" text-white-custom small">Unduh aplikasi kami untuk pengalaman membaca berita yang lebih praktis di mana saja.</p>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-outline-dark btn-sm rounded-3 d-flex align-items-center gap-2">
-                            <i class="bi bi-apple fs-5"></i>
-                            <div class="text-start" style="line-height: 1.1;">
-                                <span class="d-block" style="font-size: 0.65rem;">Available on</span>
-                                <span class="fw-bold">App Store</span>
-                            </div>
-                        </button>
-                        <button class="btn btn-outline-dark btn-sm rounded-3 d-flex align-items-center gap-2">
-                            <i class="bi bi-google-play fs-5"></i>
-                            <div class="text-start" style="line-height: 1.1;">
-                                <span class="d-block" style="font-size: 0.65rem;">Get it on</span>
-                                <span class="fw-bold">Google Play</span>
-                            </div>
-                        </button>
-                    </div>
+                    <h6 class="fw-bold mb-3 text-white-custom">Statistik Pengunjung</h6>
+					<div id="histats_counter"></div>
                 </div>
             </div>
             <hr class="my-4">
@@ -625,198 +684,71 @@
 	============================================= -->
 	<div id="gotoTop" class="icon-angle-up"></div>
 
-	<!-- JavaScripts
-	============================================= -->
-	@if(Request::segment(1)!="page-comodity"
-	&& Request::segment(1)!="page-price-comodity"
-	&& Request::segment(1)!="page-tera"
-	&& Request::segment(1)!="page-cooperative"
-	&& Request::segment(1)!="page-rat"
-	&& Request::segment(1)!="page-snik"
-	&& Request::segment(1)!="page-recapitulation-cooperative"
-	&& Request::segment(1)!="page-product-umkm"
-	&& Request::segment(1)!="page-service-plut"
-	&& Request::segment(1)!="page-regulation"
-	&& Request::segment(1)!="page-certificate"
-	)
 	<script src="{{ asset('frontend/js/jquery.js') }}"></script>
-	@endif
+	<script src="{{ asset('frontend/bootstrap.js') }}"></script>
 	<script src="{{ asset('frontend/js/plugins.min.js') }}"></script>
 
-	<!-- Date & Time Picker JS -->
-	<script src="{{ asset('frontend/js/components/moment.js') }}"></script>
-	<script src="{{ asset('frontend/js/components/timepicker.js') }}"></script>
-	<script src="{{ asset('frontend/js/components/datepicker.js') }}"></script>
+	<!-- Bootstrap Select Plugin -->
+	<script src="{{ asset('frontend/js/components/bs-select.js') }}"></script>
 
-	<!-- Include Date Range Picker -->
-	<script src="j{{ asset('frontend/s/components/daterangepicker.js') }}"></script>
+	<!-- Bootstrap Switch Plugin -->
+	<script src="{{ asset('frontend/js/components/bs-switches.js') }}"></script>
+
+	<!-- Range Slider Plugin -->
+	<script src="{{ asset('frontend/js/components/rangeslider.min.js') }}"></script>
 
 	<!-- Footer Scripts
 	============================================= -->
 	<script src="{{ asset('frontend/js/functions.js') }}"></script>
 
-</body>
-<script type="text/javascript">
-	window.onload = function() {
-		jam();
-	}
-
-	function jam() {
-		var e = document.getElementById('jam'),
-			d = new Date(),
-			h, m, s;
-		h = d.getHours();
-		m = set(d.getMinutes());
-		s = set(d.getSeconds());
-
-		e.innerHTML = h + ':' + m + ':' + s;
-
-		setTimeout('jam()', 1000);
-	}
-
-	function set(e) {
-		e = e < 10 ? '0' + e : e;
-		return e;
-	}
-</script>
-
-<script>
-	$(function() {
-		$('.component-datepicker.default').datepicker({
-			autoclose: true,
-			startDate: "today",
+	<script>
+		$(document).ready(function () {
+			$('#exampleModal').modal('show');
 		});
+		jQuery(document).ready(function() {
 
-		$('.component-datepicker.today').datepicker({
-			autoclose: true,
-			startDate: "today",
-			todayHighlight: true
-		});
-
-		$('.component-datepicker.past-enabled').datepicker({
-			autoclose: true,
-		});
-
-		$('.component-datepicker.format').datepicker({
-			autoclose: true,
-			format: "yyyy-mm-dd",
-		});
-
-		$('.component-datepicker.autoclose').datepicker();
-
-		$('.component-datepicker.disabled-week').datepicker({
-			autoclose: true,
-			daysOfWeekDisabled: "0"
-		});
-
-		$('.component-datepicker.highlighted-week').datepicker({
-			autoclose: true,
-			daysOfWeekHighlighted: "0"
-		});
-
-		$('.component-datepicker.mnth').datepicker({
-			autoclose: true,
-			minViewMode: 1,
-			format: "mm/yy"
-		});
-
-		$('.component-datepicker.multidate').datepicker({
-			multidate: true,
-			multidateSeparator: " , "
-		});
-
-		$('.component-datepicker.input-daterange').datepicker({
-			autoclose: true
-		});
-
-		$('.component-datepicker.inline-calendar').datepicker();
-
-		$('.datetimepicker').datetimepicker({
-			showClose: true
-		});
-
-		$('.datetimepicker1').datetimepicker({
-			format: 'LT',
-			showClose: true
-		});
-
-		$('.datetimepicker2').datetimepicker({
-			inline: true,
-			sideBySide: true
-		});
-
-		$('.datetimepicker3,.datetimepicker4').datetimepicker();
-
-		// .daterange1
-		$(".daterange1").daterangepicker({
-			"buttonClasses": "button button-rounded button-mini m-0",
-			"applyClass": "button-color",
-			"cancelClass": "button-light"
-		});
-
-		// .daterange2
-		$(".daterange2").daterangepicker({
-			"opens": "center",
-			timePicker: true,
-			timePickerIncrement: 30,
-			locale: {
-				format: 'MM/DD/YYYY h:mm A'
-			},
-			"buttonClasses": "button button-rounded button-mini m-0",
-			"applyClass": "button-color",
-			"cancelClass": "button-light"
-		});
-
-		// .daterange3
-		$(".daterange3").daterangepicker({
-				singleDatePicker: true,
-				showDropdowns: true
-			},
-			function(start, end, label) {
-				var years = moment().diff(start, 'years');
-				alert("You are " + years + " years old.");
+			$(".price-range-slider").ionRangeSlider({
+				type: "double",
+				prefix: "$",
+				min: 200,
+				max: 10000,
+				max_postfix: "+"
 			});
 
-		// reportrange
-		function cb(start, end) {
-			$(".reportrange span").html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		}
-		cb(moment().subtract(29, 'days'), moment());
+			$(".area-range-slider").ionRangeSlider({
+				type: "double",
+				min: 50,
+				max: 20000,
+				from: 50,
+				to: 20000,
+				postfix: " sqm.",
+				max_postfix: "+"
+			});
 
-		$(".reportrange").daterangepicker({
-			"buttonClasses": "button button-rounded button-mini m-0",
-			"applyClass": "button-color",
-			"cancelClass": "button-light",
-			ranges: {
-				'Today': [moment(), moment()],
-				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-				'This Month': [moment().startOf('month'), moment().endOf('month')],
-				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-			}
-		}, cb);
+			jQuery(".bt-switch").bootstrapSwitch();
 
-		// .daterange4
-		$(".daterange4").daterangepicker({
-			autoUpdateInput: false,
-			locale: {
-				cancelLabel: 'Clear'
-			},
-			"buttonClasses": "button button-rounded button-mini m-0",
-			"applyClass": "button-color",
-			"cancelClass": "button-light"
 		});
 
-		$(".daterange4").on('apply.daterangepicker', function(ev, picker) {
-			$(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-		});
+	</script>
 
-		$(".daterange4").on('cancel.daterangepicker', function(ev, picker) {
-			$(this).val('');
-		});
+	<div id="fb-root"></div>
 
-	});
-</script>
+	<script async defer crossorigin="anonymous"
+			src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v23.0">
+	</script>
+</body>
+
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5056289,4,408,270,55,00011111']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5056289&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 
 </html>

@@ -28,9 +28,9 @@ $setting = \App\Helpers\Helpers::setting();
 				PROFIL
 			</div>
 
-			<h1 id="title1">{{ $title }}</h1>
+			<h1 id="title1" data-animate="backInLeft" data-delay="100">{{ $title }}</h1>
 
-			<ol class="breadcrumb profile-breadcrumb">
+			<ol class="breadcrumb profile-breadcrumb" data-animate="backInLeft" data-delay="100">
 				<li class="breadcrumb-item">
 					<a href="{{ url('/') }}">
 						<i class="bi bi-house-door me-1"></i>

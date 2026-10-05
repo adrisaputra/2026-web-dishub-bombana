@@ -92,7 +92,7 @@ class NewsController extends Controller
             $news->title = $request->title;
             $news->text = $request->text;
             $news->slug = Str::slug($request->title);
-            $news->user_id = 14;
+            $news->user_id = 215;
             $news->office_id = 14;
 
             if ($request->hasFile('cover')) {

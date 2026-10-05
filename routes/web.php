@@ -42,9 +42,17 @@ Route::get('/page-vision-mission', [WebController::class, 'profile']);
 Route::get('/page-main-tasks', [WebController::class, 'profile']);
 Route::get('/page-structure', [WebController::class, 'profile']);
 Route::get('/page-profile-list/{menu}', [WebController::class, 'profile_list']);
+Route::get('/page-information/{category}', [WebController::class, 'information']);
+Route::get('/page-information-list/{category}', [WebController::class, 'information_list']);
+Route::get('/page-information-detail', [WebController::class, 'information_detail']);
 Route::get('/page-news', [WebController::class, 'news']);
 Route::get('/page-news-list', [WebController::class, 'news_list']);
 Route::get('/page-news-detail', [WebController::class, 'news_detail']);
+Route::get('/page-album', [WebController::class, 'album']);
+Route::get('/page-album-list', [WebController::class, 'album_list']);
+Route::get('/page-video', [WebController::class, 'video']);
+Route::get('/page-video-list', [WebController::class, 'video_list']);
+Route::get('/weather', [WebController::class, 'weather']);
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -74,6 +82,7 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::get('/popup/delete/{popup}', [PopupController::class, 'delete']);
 
     ## Profiles
+    Route::get('/opening_speech', [ProfileController::class, 'index']);
     Route::get('/about', [ProfileController::class, 'index']);
     Route::get('/vision_mission', [ProfileController::class, 'index']);
     Route::get('/main_tasks', [ProfileController::class, 'index']);
@@ -128,10 +137,14 @@ Route::middleware(['role:Administrator,Operator'])->group(function () {
     Route::put('/video/edit/{video}', [VideoController::class, 'update']);
     Route::get('/video/delete/{video}', [VideoController::class, 'delete']);
 
+    ##  Edit Profile
+    Route::get('/edit_profil/{user}', [UserController::class, 'edit_profil']);
+    Route::post('/edit_profil/validate/{action}', [UserController::class, 'validate_profile']);
+    Route::put('/edit_profil/{user}', [UserController::class, 'update_profil']);
 });
 
 
-Route::middleware(['role:Administrator,Operator'])->group(function () {
+Route::middleware(['role:Administrator'])->group(function () {
     
     ## User
     Route::get('/user', [UserController::class, 'index'])->name('users.index');

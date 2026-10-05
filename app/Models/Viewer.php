@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NewsViewer extends Model
+class Viewer extends Model
 {
     use HasFactory;
+    protected $connection = 'ppid_mysql';
     protected $fillable =[
         'news_id',
-        'ip_address'
+        'ip_address',
     ];
 
-    public function news(){
+    ## Relation
+    public function news()
+    {
         return $this->belongsTo('App\Models\News');
     }
-
 }

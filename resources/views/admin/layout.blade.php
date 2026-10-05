@@ -229,7 +229,7 @@ $setting = \App\Helpers\Helpers::setting();
 								</div>
 							</div>
 
-							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), ['about','vision_mission','main_tasks','structure'])) here show @endif menu-accordion">
+							<div data-kt-menu-trigger="click" class="menu-item @if(in_array(Request::segment(1), ['opening_speech','about','vision_mission','main_tasks','structure'])) here show @endif menu-accordion">
 								<span class="menu-link">
 									<span class="menu-icon" style="margin-right: 15px">
 										<img src="{{ asset('storage/menu/icons8-company-100.png') }}" width="30" height="30">
@@ -238,6 +238,14 @@ $setting = \App\Helpers\Helpers::setting();
 									<span class="menu-arrow"></span>
 								</span>
 								<div class="menu-sub menu-sub-accordion menu-active-bg">
+									<div class="menu-item">
+										<a class="menu-link @if(Request::segment(1)=='opening_speech') active @endif" href="{{ url('opening_speech') }}">
+											<span class="menu-bullet">
+												<span class="bullet bullet-dot"></span>
+											</span>
+											<span class="menu-title">Sambutan Kepala Dinas</span>
+										</a>
+									</div>
 									<div class="menu-item">
 										<a class="menu-link @if(Request::segment(1)=='about') active @endif" href="{{ url('about') }}">
 											<span class="menu-bullet">

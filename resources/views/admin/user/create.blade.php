@@ -39,34 +39,10 @@
 											};">
                                     <option value="">- Pilih Group -</option>
                                     <option value="1">Administrator</option>
-                                    <option value="2">Admin Desa</option>
+                                    <option value="2">Operator</option>
                                 </select>
                                 <div id="group_id-error" class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
-
-                        <span id="village" style="display:none;">
-
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">{{ __('Pilih Kecamatan') }}</label>
-                                <select name="subdistrict_id" id="subdistrict_id" class="form-control" data-control="select2" onchange="getVillage()"> 
-                                    <option value="">- Pilih Kecamatan -</option>
-                                    @foreach($subdistrict as $v)
-                                        <option value="{{ $v->id }}">{{ $v->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div id="subdistrict_id-error" class="fv-plugins-message-container invalid-feedback"></div>
-                            </div>
-
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">{{ __('Pilih Desa/Kelurahan') }}</label>
-                                <select name="village_id" id="village_id" class="form-control"> 
-                                    <option value="">- Pilih Desa/Kelurahan -</option>
-                                </select>
-                                <div id="village_id-error" class="fv-plugins-message-container invalid-feedback"></div>
-                            </div>
-
-                        </span>
-
 
                         <div class="fv-row mb-7">
                             <label class="required fw-bold fs-6 mb-2">{{ __('Password') }}</label>

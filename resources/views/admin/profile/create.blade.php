@@ -12,7 +12,26 @@
                 <input type="text" name="title" id="title" class="form-control" placeholder="Judul" value="{{ $profile->title }}" disabled />
             </div>
         </div>
-        @if(in_array($profile->menu,['about','vision_mission','main_tasks']))
+        @if(in_array($profile->menu,['opening_speech','about']))
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">Deskripsi</label>
+            <div class="col-lg-8 fv-row">
+                <textarea name="text" id="text" class="form-control ckeditor">{{ $profile->text }}</textarea>
+                <div id="phone-error" class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">Gambar</label>
+            <div class="col-lg-8 fv-row">
+                <input type="file" name="image" id="image" class="form-control" placeholder="Background Login"/>
+                <div id="image-error" class="fv-plugins-message-container invalid-feedback"></div>
+                <span style="font-size:11px"><i>Ukuran File Tidak Boleh Lebih Dari 2 Mb (jpg,jpeg,png)</i></span><br>
+                @if($profile->image)
+                    <img src="{{ asset('storage/upload/profile/'.$profile->image) }}" width="40%">
+                @endif
+            </div>
+        </div>
+        @elseif(in_array($profile->menu,['vision_mission','main_tasks']))
         <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">Deskripsi</label>
             <div class="col-lg-8 fv-row">

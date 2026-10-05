@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $title = "User";
-		return view('admin.user.index',compact('title', 'subdistrict'));
+		return view('admin.user.index',compact('title'));
     }
 
     ## Get Data
@@ -76,8 +76,6 @@ class UserController extends Controller
                 'password' => 'Password',
                 'status' => 'Status',
                 'group_id' => 'Grup User',
-                'subdistrict_id' => 'Kecamatan',
-                'village_id' => 'Desa/Kelurahan'
             ];
 
             if($action==="Simpan"){
@@ -89,11 +87,6 @@ class UserController extends Controller
                     'status' => 'required'
                 ];
                 
-                if($request->group_id == 2){
-                    $rules['subdistrict_id'] = 'required';
-                    $rules['village_id'] = 'required';
-                }
-                
             } else {
                 if($request->password){
                     $rules = [
@@ -103,11 +96,6 @@ class UserController extends Controller
                         'status' => 'required'
                     ];
                         
-                    if($request->group_id == 2){
-                        $rules['subdistrict_id'] = 'required';
-                        $rules['village_id'] = 'required';
-                    }
-                    
                 } else {
                     $rules = [
                         'name' => 'required|string|max:255',
@@ -115,11 +103,6 @@ class UserController extends Controller
                         'status' => 'required',
                     ];
                         
-                    if($request->group_id == 2){
-                        $rules['subdistrict_id'] = 'required';
-                        $rules['village_id'] = 'required';
-                    }
-                    
                 }
             }
 
@@ -134,8 +117,11 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $user = New User();
-            $user->fill($request->all());
-            $user->status = 'Active';
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->group_id = $request->group_id;
+            $user->password = Hash::make($request->password);
+            $user->status = $request->status;
             $user->save();
             
             activity()->log('Tambah Data User');
@@ -158,30 +144,14 @@ class UserController extends Controller
             if($request->password){
                 $user->name = $request->name;
                 $user->email = $request->email;
+                $user->group_id = $request->group_id;
                 $user->password = Hash::make($request->password);
-
-                if($request->group_id == 1){
-                    $user->subdistrict_id = NULL;
-                    $user->village_id = NULL;
-                } else {
-                    $user->subdistrict_id = $request->subdistrict_id;
-                    $user->village_id = $request->village_id;
-                }
-                
                 $user->status = $request->status;
 
             } else {
                 $user->name = $request->name;
                 $user->email = $request->email;
-
-                if($request->group_id == 1){
-                    $user->subdistrict_id = NULL;
-                    $user->village_id = NULL;
-                } else {
-                    $user->subdistrict_id = $request->subdistrict_id;
-                    $user->village_id = $request->village_id;
-                }
-
+                $user->group_id = $request->group_id;
                 $user->status = $request->status;
             }
             $user->save();

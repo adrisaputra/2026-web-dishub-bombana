@@ -25,6 +25,8 @@ class InformationController extends Controller
             $title = "Informasi Transportasi dan Fasilitas Perhubungan";   
         } else if($category == 4){
             $title = "Informasi Perizinan dan Persyaratan Pelayanan";   
+        } else if($category == 5){
+            $title = "Lainnya";   
         } 
         return view('admin.information.index', compact('title','category'));
     }

@@ -46,6 +46,7 @@ class SettingController extends Controller
             $setting->youtube = $request->youtube;
             $setting->instagram = $request->instagram;
             $setting->facebook = $request->facebook;
+            $setting->twitter = $request->twitter;
             $setting->whatsapp = $request->whatsapp;
 
             if ($request->file('small_icon')) {
